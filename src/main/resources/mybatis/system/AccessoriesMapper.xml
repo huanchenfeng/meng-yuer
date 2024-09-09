@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.AccessoriesMapper">
+    
+    <resultMap type="Accessories" id="AccessoriesResult">
+        <result property="id"    column="id"    />
+        <result property="buffId"    column="buff_id"    />
+        <result property="buffSellPrice"    column="buff_sell_price"    />
+        <result property="buffSellNum"    column="buff_sell_num"    />
+        <result property="buffBuyPrice"    column="buff_buy_price"    />
+        <result property="buffBuyNum"    column="buff_buy_num"    />
+        <result property="steamSellPrice"    column="steam_sell_price"    />
+        <result property="steamSellNum"    column="steam_sell_num"    />
+        <result property="steamBuyPrice"    column="steam_buy_price"    />
+        <result property="steamBuyNum"    column="steam_buy_num"    />
+        <result property="marketHashName"    column="market_hash_name"    />
+        <result property="name"    column="name"    />
+        <result property="img"    column="img"    />
+        <result property="yyypId"    column="yyyp_id"    />
+        <result property="yyypSellPrice"    column="yyyp_sell_price"    />
+        <result property="yyypSellNum"    column="yyyp_sell_num"    />
+        <result property="yyypBuyPrice"    column="yyyp_buy_price"    />
+        <result property="yyypBuyNum"    column="yyyp_buy_num"    />
+        <result property="maxPrice"    column="max_price"    />
+        <result property="turnoverNumber"    column="turnover_number"    />
+        <result property="steamId"    column="steam_id"    />
+    </resultMap>
+
+    <sql id="selectAccessoriesVo">
+        select id, buff_id, buff_sell_price, buff_sell_num, buff_buy_price, buff_buy_num, steam_sell_price, steam_sell_num, steam_buy_price, steam_buy_num, market_hash_name, name, img, yyyp_id, yyyp_sell_price, yyyp_sell_num, yyyp_buy_price, yyyp_buy_num, max_price, turnover_number, steam_id from accessories
+    </sql>
+
+    <select id="selectAccessoriesList" parameterType="Accessories" resultMap="AccessoriesResult">
+        <include refid="selectAccessoriesVo"/>
+        <where>  
+            <if test="buffId != null "> and buff_id = #{buffId}</if>
+            <if test="buffSellPrice != null "> and buff_sell_price = #{buffSellPrice}</if>
+            <if test="buffSellNum != null "> and buff_sell_num = #{buffSellNum}</if>
+            <if test="buffBuyPrice != null "> and buff_buy_price = #{buffBuyPrice}</if>
+            <if test="buffBuyNum != null "> and buff_buy_num = #{buffBuyNum}</if>
+            <if test="steamSellPrice != null "> and steam_sell_price = #{steamSellPrice}</if>
+            <if test="steamSellNum != null "> and steam_sell_num = #{steamSellNum}</if>
+            <if test="steamBuyPrice != null "> and steam_buy_price = #{steamBuyPrice}</if>
+            <if test="steamBuyNum != null "> and steam_buy_num = #{steamBuyNum}</if>
+            <if test="marketHashName != null  and marketHashName != ''"> and market_hash_name like concat('%', #{marketHashName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="yyypId != null "> and yyyp_id = #{yyypId}</if>
+            <if test="yyypSellPrice != null "> and yyyp_sell_price = #{yyypSellPrice}</if>
+            <if test="yyypSellNum != null "> and yyyp_sell_num = #{yyypSellNum}</if>
+            <if test="yyypBuyPrice != null "> and yyyp_buy_price = #{yyypBuyPrice}</if>
+            <if test="yyypBuyNum != null "> and yyyp_buy_num = #{yyypBuyNum}</if>
+            <if test="maxPrice != null "> and max_price = #{maxPrice}</if>
+            <if test="turnoverNumber != null "> and turnover_number = #{turnoverNumber}</if>
+            <if test="steamId != null "> and steam_id = #{steamId}</if>
+        </where>
+    </select>
+    
+    <select id="selectAccessoriesById" parameterType="Long" resultMap="AccessoriesResult">
+        <include refid="selectAccessoriesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAccessories" parameterType="Accessories">
+        insert into accessories
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="buffId != null">buff_id,</if>
+            <if test="buffSellPrice != null">buff_sell_price,</if>
+            <if test="buffSellNum != null">buff_sell_num,</if>
+            <if test="buffBuyPrice != null">buff_buy_price,</if>
+            <if test="buffBuyNum != null">buff_buy_num,</if>
+            <if test="steamSellPrice != null">steam_sell_price,</if>
+            <if test="steamSellNum != null">steam_sell_num,</if>
+            <if test="steamBuyPrice != null">steam_buy_price,</if>
+            <if test="steamBuyNum != null">steam_buy_num,</if>
+            <if test="marketHashName != null and marketHashName != ''">market_hash_name,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="img != null and img != ''">img,</if>
+            <if test="yyypId != null">yyyp_id,</if>
+            <if test="yyypSellPrice != null">yyyp_sell_price,</if>
+            <if test="yyypSellNum != null">yyyp_sell_num,</if>
+            <if test="yyypBuyPrice != null">yyyp_buy_price,</if>
+            <if test="yyypBuyNum != null">yyyp_buy_num,</if>
+            <if test="maxPrice != null">max_price,</if>
+            <if test="turnoverNumber != null">turnover_number,</if>
+            <if test="steamId != null">steam_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="buffId != null">#{buffId},</if>
+            <if test="buffSellPrice != null">#{buffSellPrice},</if>
+            <if test="buffSellNum != null">#{buffSellNum},</if>
+            <if test="buffBuyPrice != null">#{buffBuyPrice},</if>
+            <if test="buffBuyNum != null">#{buffBuyNum},</if>
+            <if test="steamSellPrice != null">#{steamSellPrice},</if>
+            <if test="steamSellNum != null">#{steamSellNum},</if>
+            <if test="steamBuyPrice != null">#{steamBuyPrice},</if>
+            <if test="steamBuyNum != null">#{steamBuyNum},</if>
+            <if test="marketHashName != null and marketHashName != ''">#{marketHashName},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="img != null and img != ''">#{img},</if>
+            <if test="yyypId != null">#{yyypId},</if>
+            <if test="yyypSellPrice != null">#{yyypSellPrice},</if>
+            <if test="yyypSellNum != null">#{yyypSellNum},</if>
+            <if test="yyypBuyPrice != null">#{yyypBuyPrice},</if>
+            <if test="yyypBuyNum != null">#{yyypBuyNum},</if>
+            <if test="maxPrice != null">#{maxPrice},</if>
+            <if test="turnoverNumber != null">#{turnoverNumber},</if>
+            <if test="steamId != null">#{steamId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccessories" parameterType="Accessories">
+        update accessories
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buffId != null">buff_id = #{buffId},</if>
+            <if test="buffSellPrice != null">buff_sell_price = #{buffSellPrice},</if>
+            <if test="buffSellNum != null">buff_sell_num = #{buffSellNum},</if>
+            <if test="buffBuyPrice != null">buff_buy_price = #{buffBuyPrice},</if>
+            <if test="buffBuyNum != null">buff_buy_num = #{buffBuyNum},</if>
+            <if test="steamSellPrice != null">steam_sell_price = #{steamSellPrice},</if>
+            <if test="steamSellNum != null">steam_sell_num = #{steamSellNum},</if>
+            <if test="steamBuyPrice != null">steam_buy_price = #{steamBuyPrice},</if>
+            <if test="steamBuyNum != null">steam_buy_num = #{steamBuyNum},</if>
+            <if test="marketHashName != null and marketHashName != ''">market_hash_name = #{marketHashName},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="img != null and img != ''">img = #{img},</if>
+            <if test="yyypId != null">yyyp_id = #{yyypId},</if>
+            <if test="yyypSellPrice != null">yyyp_sell_price = #{yyypSellPrice},</if>
+            <if test="yyypSellNum != null">yyyp_sell_num = #{yyypSellNum},</if>
+            <if test="yyypBuyPrice != null">yyyp_buy_price = #{yyypBuyPrice},</if>
+            <if test="yyypBuyNum != null">yyyp_buy_num = #{yyypBuyNum},</if>
+            <if test="maxPrice != null">max_price = #{maxPrice},</if>
+            <if test="turnoverNumber != null">turnover_number = #{turnoverNumber},</if>
+            <if test="steamId != null">steam_id = #{steamId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccessoriesById" parameterType="Long">
+        delete from accessories where id = #{id}
+    </delete>
+
+    <delete id="deleteAccessoriesByIds" parameterType="String">
+        delete from accessories where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="dataAnalys" resultType="com.ruoyi.project.system.domain.vo.DataAnalyVo">
+        SELECT
+        name AS 'name',
+        GREATEST(
+        buff_buy_price / (steam_sell_price * 0.87),
+        yyyp_buy_price / (steam_sell_price * 0.87)
+        ) AS 'purchaseToSellRatio',
+        GREATEST(
+        buff_buy_price / (steam_buy_price * 0.87),
+        yyyp_buy_price / (steam_buy_price * 0.87)
+        ) AS 'purchaseToPurchaseRatio',
+        GREATEST(
+        buff_sell_price / (steam_buy_price * 0.87),
+        yyyp_sell_price / (steam_buy_price * 0.87)
+        ) AS 'sellToPurchaseRatio',
+        GREATEST(
+        buff_sell_price / (steam_sell_price * 0.87),
+        yyyp_sell_price / (steam_sell_price * 0.87)
+        ) AS 'sellToSellRatio',
+        steam_sell_price AS steamSellPrice,
+        buff_sell_price AS buffSellPrice,
+        yyyp_sell_price AS yyypSellPrice,
+        buff_buy_price AS buffBuyPrice,
+        yyyp_buy_price AS yyypBuyPrice,
+        steam_buy_price AS steamBuyPrice,
+        -- 动态生成的链接字段
+        CONCAT('https://steamcommunity.com/market/listings/730/', market_hash_name) AS steamLink,
+        CONCAT('https://buff.163.com/goods/', buff_id, '?from=market#tab=selling') AS buffLink,
+        CONCAT('https://www.youpin898.com/goodInfo?id=', yyyp_id) AS yyypLink
+        FROM accessories
+        WHERE steam_buy_price > 5
+        ORDER BY
+        <choose>
+            <when test="type == 1">
+                purchaseToSellRatio
+            </when>
+            <when test="type == 2">
+                purchaseToPurchaseRatio
+            </when>
+            <when test="type == 3">
+                sellToPurchaseRatio
+            </when>
+            <when test="type == 4">
+                sellToSellRatio
+            </when>
+            <otherwise>
+                purchaseToSellRatio <!-- 默认按 purchaseToSellRatio 排序 -->
+            </otherwise>
+        </choose> ASC
+    </select>
+</mapper>
