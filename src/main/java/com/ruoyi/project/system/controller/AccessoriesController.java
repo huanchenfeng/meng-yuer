@@ -104,7 +104,6 @@ public class AccessoriesController extends BaseController
         return toAjax(accessoriesService.deleteAccessoriesByIds(ids));
     }
 
-
     /**
      * 饰品数据分析
      */

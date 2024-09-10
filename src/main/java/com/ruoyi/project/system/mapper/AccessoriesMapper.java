@@ -5,6 +5,8 @@ import java.util.List;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.project.system.domain.Accessories;
 import com.ruoyi.project.system.domain.vo.DataAnalyVo;
+import org.apache.ibatis.annotations.Mapper;
+
 
 /**
  * 饰品信息Mapper接口
@@ -12,6 +14,7 @@ import com.ruoyi.project.system.domain.vo.DataAnalyVo;
  * @author cfs
  * @date 2024-09-06
  */
+@Mapper
 public interface AccessoriesMapper extends BaseMapper<Accessories>
 {
     /**

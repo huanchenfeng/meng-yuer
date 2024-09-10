@@ -26,7 +26,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <spring-framework.version>5.3.33</spring-framework.version>
         <spring-security.version>5.7.12</spring-security.version>
-        <pagehelper.spring.boot.starter.version>1.4.7</pagehelper.spring.boot.starter.version>
+        <pagehelper.spring.boot.starter.version>1.4.1</pagehelper.spring.boot.starter.version>
         <fastjson.version>2.0.43</fastjson.version>
         <druid.version>1.2.23</druid.version>
         <commons.io.version>2.13.0</commons.io.version>
@@ -106,6 +106,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper.spring.boot.starter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 阿里数据库连接池 -->
@@ -222,7 +228,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.7</version>
+            <version>3.5.1</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
