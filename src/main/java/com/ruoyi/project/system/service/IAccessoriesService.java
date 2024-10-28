@@ -3,6 +3,7 @@ package com.ruoyi.project.system.service;
 import java.util.List;
 import com.ruoyi.project.system.domain.Accessories;
 import com.ruoyi.project.system.domain.vo.DataAnalyVo;
+import com.ruoyi.project.system.domain.vo.MyAccessorieVo;
 
 /**
  * 饰品信息Service接口
@@ -64,5 +65,6 @@ public interface IAccessoriesService
 
     void updateAccessoriesData(int pageSum);
 
+    List<MyAccessorieVo> myAccessorieById(int id);
 
 }

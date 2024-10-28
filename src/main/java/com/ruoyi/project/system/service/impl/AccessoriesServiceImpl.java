@@ -1,16 +1,24 @@
 package com.ruoyi.project.system.service.impl;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.project.system.domain.vo.DataAnalyVo;
+import com.ruoyi.project.system.domain.vo.MyAccessorieVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.system.mapper.AccessoriesMapper;
@@ -140,5 +148,49 @@ public class AccessoriesServiceImpl  extends ServiceImpl<AccessoriesMapper, Acce
             }
         }
 
+    }
+
+    @Override
+    public List<MyAccessorieVo> myAccessorieById(int id) {
+        String url = "https://steamcommunity.com/inventory/76561199003162827/730/2?l=schinese&count=5000";
+        // Make the request
+        HttpRequest httpRequest = HttpRequest.get(url).timeout(30000);
+        httpRequest.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 7890)));
+        String response = httpRequest.execute().body();
+
+        // Parse JSON response
+        JSONObject jsonResponse = JSONUtil.parseObj(response);
+        JSONArray assets = jsonResponse.getJSONArray("assets");
+        JSONArray descriptions = jsonResponse.getJSONArray("descriptions");
+
+        // Map to store item count by classid
+        Map<String, Integer> itemCount = new HashMap<>();
+        Map<String, String> itemNameMap = new HashMap<>();
+
+        // Process descriptions to map classid to names
+        for (Object descObj : descriptions) {
+            JSONObject description = (JSONObject) descObj;
+            String classid = description.getStr("classid");
+            String name = description.getStr("market_name");
+            itemNameMap.put(classid, name);
+        }
+
+        // Count items by classid
+        for (Object assetObj : assets) {
+            JSONObject asset = (JSONObject) assetObj;
+            String classid = asset.getStr("classid");
+
+            itemCount.put(classid, itemCount.getOrDefault(classid, 0) + 1);
+        }
+        List<MyAccessorieVo> myAccessorieVoList=new ArrayList<>();
+        // Output item counts with names
+        itemCount.forEach((classid, count) -> {
+            Accessories accessories=accessoriesMapper.selectOne(new QueryWrapper<Accessories>().eq("name",itemNameMap.get(classid)));
+            MyAccessorieVo myAccessorieVo=new MyAccessorieVo();
+            BeanUtil.copyProperties(accessories, myAccessorieVo);
+            myAccessorieVo.setSum(count);
+            myAccessorieVoList.add(myAccessorieVo);
+        });
+        return myAccessorieVoList;
     }
 }
